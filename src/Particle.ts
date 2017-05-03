@@ -27,6 +27,7 @@ export default class Particle {
     private tint: Tint;
     private buffer: HTMLCanvasElement;
     private psOptions: PSOptionInterface;
+    // Masth0
     private lifeTime: number;
     private currentTime: number;
     private lifeOpacity: number;
@@ -67,7 +68,7 @@ export default class Particle {
         this.image = image;
 
         // offscreen buffer
-        this.tint = this.psOptions.tints[Math.floor(Math.random() * this.psOptions.tints.length)].clone();
+        this.tint = this.psOptions.tint.clone();
         if (this.tint.isActive() || this.psOptions.cursorMode == CursorMode.Light) {
             this.buffer = document.createElement('canvas');
             this.buffer.width = this.image.width;
@@ -136,7 +137,7 @@ export default class Particle {
 
         if (this.psOptions.rotationMode === RotationMode.FollowVelocity) {
             // return to normal after bounce
-            let scl = 3 * delta;
+            let scl = .3 * delta;
             let bounceVelocity = this.defaultVelocity.cpy().scl(scl, scl);
             this.velocity.add(bounceVelocity.x, bounceVelocity.y).scl(1 - scl, 1 - scl);
         }
@@ -148,9 +149,9 @@ export default class Particle {
                 let intersection = this.position.cpy().add(-this.particleSystem.cursorRelativeVector.x, -this.particleSystem.cursorRelativeVector.y);
                 this.velocity.setRotation(intersection.angle());
 
-                let scl = delta * 10;
+                let scl = delta;
                 if (dst > this.psOptions.cursorRadius * .9) {
-                    scl *= .2;
+                    scl = delta * .2;
                 }
                 intersection.scl(scl, scl).add(this.position.x, this.position.y);
                 this.position.set(intersection.x, intersection.y);
@@ -216,5 +217,5 @@ export default class Particle {
     public get isAlive(): boolean {
         return this.alive;
     }
-
+    
 }
