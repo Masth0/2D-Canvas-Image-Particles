@@ -27,7 +27,6 @@ export default class Particle {
     private tint: Tint;
     private buffer: HTMLCanvasElement;
     private psOptions: PSOptionInterface;
-    // Masth0
     private lifeTime: number;
     private currentTime: number;
     private lifeOpacity: number;
